@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface EventService {
 
-    void save(Event event);
+    Event save(Event event);
 
-    void update(Event event);
+    Event update(Event event);
 
     Event findById(Long id);
 

@@ -16,20 +16,26 @@ public class EventServiceImpl implements EventService {
     private EventRepository eventRepository;
 
     @Override
-    public void save(Event event) {
+    public Event save(Event event) {
         eventRepository.save(event);
+        return event;
     }
-    @Override
-    public void update(Event event) {
 
+    @Override
+    public Event update(Event event) {
         eventRepository.update(event);
+        return event;
     }
 
     @Override
-    public Event findById(Long id) {
+    public Event findById(Long id) throws EventNotFoundException {
         Optional<Event> event = eventRepository.findById(id);
-        return event.orElseThrow(() -> new EventNotFoundException(String.format("there is no event with id %s", id)));
+        if (event.isEmpty()) {
+            EventNotFoundException.call(id);
+        }
+        return event.get();
     }
+
 
     @Override
     public List<Event> findAll() {

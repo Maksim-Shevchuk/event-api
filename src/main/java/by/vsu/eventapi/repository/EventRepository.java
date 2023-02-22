@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface EventRepository {
 
-    void save(Event event);
+    Event save(Event event);
 
-    void update(Event event);
+    Event update(Event event);
 
     Optional<Event> findById(Long id);
 

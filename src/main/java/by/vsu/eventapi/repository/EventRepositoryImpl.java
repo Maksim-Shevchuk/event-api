@@ -23,26 +23,24 @@ public class EventRepositoryImpl implements EventRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String EVENT_NOT_FOUND_MESSAGE = "Event with id:=%d doesn't exists";
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void save(Event event) {
+    public Event save(Event event) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(event);
+        return event;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void update(Event event) {
+    public Event update(Event event) throws EventNotFoundException {
         Session session = sessionFactory.getCurrentSession();
-        try {
-            if(findById(event.getId()).isEmpty()) {
-                throw new EventNotFoundException(String.format(EVENT_NOT_FOUND_MESSAGE, event.getId()));
-            }
-            session.merge(event);
-        } catch (EventNotFoundException e) {
-            throw new EventNotFoundException(String.format(EVENT_NOT_FOUND_MESSAGE, event.getId()));
+        Optional<Event> id = findById(event.getId());
+        if (id.isEmpty()) {
+            EventNotFoundException.call(event.getId());
         }
+        session.merge(event);
+        return event;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -69,15 +67,10 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public void deleteById(Long id) throws EventNotFoundException {
         Session session = sessionFactory.getCurrentSession();
-        Optional<Event> markedToDeletionEvent;
-        try {
-            markedToDeletionEvent = findById(id);
-            if (markedToDeletionEvent.isEmpty()) {
-                throw new EventNotFoundException(String.format(EVENT_NOT_FOUND_MESSAGE, id));
-            }
-            session.remove(markedToDeletionEvent.get());
-        } catch (EventNotFoundException e) {
-            throw new EventNotFoundException(String.format(EVENT_NOT_FOUND_MESSAGE, id));
+        Optional<Event> markedToDeletionEvent = findById(id);
+        if (markedToDeletionEvent.isEmpty()) {
+            EventNotFoundException.call(id);
         }
+        session.remove(markedToDeletionEvent.get());
     }
 }
