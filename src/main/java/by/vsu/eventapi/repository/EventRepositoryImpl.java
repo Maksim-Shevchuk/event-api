@@ -37,6 +37,7 @@ public class EventRepositoryImpl implements EventRepository {
         Session session = sessionFactory.getCurrentSession();
         Optional<Event> id = findById(event.getId());
         if (id.isEmpty()) {
+            log.error("failed updating event := {}", event);
             EventNotFoundException.call(event.getId());
         }
         session.merge(event);
@@ -69,6 +70,7 @@ public class EventRepositoryImpl implements EventRepository {
         Session session = sessionFactory.getCurrentSession();
         Optional<Event> markedToDeletionEvent = findById(id);
         if (markedToDeletionEvent.isEmpty()) {
+            log.error("failed to delete event with id := {}", id);
             EventNotFoundException.call(id);
         }
         session.remove(markedToDeletionEvent.get());

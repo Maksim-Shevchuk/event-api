@@ -10,12 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/events")
 @Tag(name = "Event", description = "The event api")
@@ -42,6 +44,7 @@ public class EventController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Event findEventById(@PathVariable @Valid long id) {
+        log.info("received request to find event with id := {}", id);
         return eventService.findById(id);
     }
 
@@ -62,6 +65,7 @@ public class EventController {
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public List<Event> findALl() {
+        log.info("received request to find all events");
         return eventService.findAll();
     }
 
@@ -78,8 +82,8 @@ public class EventController {
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public Event save(@RequestBody @Valid Event event) {
-        eventService.save(event);
-        return event;
+        log.info("received request to create new event := {}", event);
+        return eventService.save(event);
     }
 
     @Operation(summary = "delete event by it's id")
@@ -100,6 +104,7 @@ public class EventController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable @Valid long id) {
+        log.info("received request to delete event with id := {}", id);
         eventService.deleteById(id);
     }
 
@@ -121,6 +126,7 @@ public class EventController {
     @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public Event updateEvent(@RequestBody @Valid Event event) {
+        log.info("received request to update event := {}", event);
         eventService.update(event);
         return event;
     }

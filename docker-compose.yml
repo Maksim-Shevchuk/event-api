@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    container_name: event-api-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_DB=event-api
+    ports:
+      - "5432:5432"
+
+  app:
+    build: ./
+    container_name: event-api-app
+    ports:
+      - "8080:8080"
+
+#  flyway:
+#    image: boxfuse/flyway:5-alpine
