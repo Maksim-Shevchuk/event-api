@@ -61,10 +61,8 @@ public class EventController {
     )
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Event> findAll(
-            @RequestParam @Positive int size,
-            @RequestParam @Positive int page
-    ) {
+    public List<Event> findAll(@RequestParam @Positive int size,
+                               @RequestParam @Positive int page) {
         return eventService.findAll(size, page);
     }
 
