@@ -8,10 +8,6 @@ public class EventNotFoundException extends RuntimeException {
 
     private static final String DEFAULT_NOT_FOUND_EXCEPTION_MESSAGE = "There is no event with id %s";
 
-    public EventNotFoundException() {
-        super();
-    }
-
     public EventNotFoundException(String message) {
         super(message);
 

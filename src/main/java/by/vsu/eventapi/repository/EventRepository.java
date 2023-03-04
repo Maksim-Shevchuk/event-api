@@ -11,9 +11,9 @@ public interface EventRepository {
 
     Event update(Event event);
 
-    Optional<Event> findById(Long id);
+    Optional<Event> findById(long id);
 
-    List<Event> findAll();
+    List<Event> findAll(int size, int page);
 
-    void deleteById(Long id);
+    void deleteById(long id);
 }

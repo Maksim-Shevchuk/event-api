@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,6 @@ import java.util.List;
 @RequestMapping("/api/events")
 @Tag(name = "Event", description = "The event api")
 public class EventController {
-    //todo add mapping for /errors
     @Autowired
     private EventService eventService;
 
@@ -45,12 +45,12 @@ public class EventController {
         return eventService.findById(id);
     }
 
-    @Operation(summary = "Fetch all events")
+    @Operation(summary = "fetch all events with pagination")
     @ApiResponses(
             value = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Fetched all events from db",
+                            description = "fetched all events with pagination",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -59,10 +59,13 @@ public class EventController {
                     )
             }
     )
-    @GetMapping("/")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Event> findALl() {
-        return eventService.findAll();
+    public List<Event> findAll(
+            @RequestParam @Positive int size,
+            @RequestParam @Positive int page
+    ) {
+        return eventService.findAll(size, page);
     }
 
     @Operation(summary = "Create event")

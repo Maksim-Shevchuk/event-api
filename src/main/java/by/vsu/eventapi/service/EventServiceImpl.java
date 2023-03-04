@@ -28,7 +28,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event findById(Long id) throws EventNotFoundException {
+    public Event findById(long id) throws EventNotFoundException {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isEmpty()) {
             EventNotFoundException.call(id);
@@ -36,14 +36,13 @@ public class EventServiceImpl implements EventService {
         return event.get();
     }
 
-
     @Override
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public List<Event> findAll(int size, int page) {
+        return eventRepository.findAll(size, page);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(long id) {
         eventRepository.deleteById(id);
     }
 }

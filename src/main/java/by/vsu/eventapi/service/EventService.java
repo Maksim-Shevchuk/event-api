@@ -10,9 +10,9 @@ public interface EventService {
 
     Event update(Event event);
 
-    Event findById(Long id);
+    Event findById(long id);
 
-    List<Event> findAll();
+    List<Event> findAll(int size, int page);
 
-    void deleteById(Long id);
+    void deleteById(long id);
 }

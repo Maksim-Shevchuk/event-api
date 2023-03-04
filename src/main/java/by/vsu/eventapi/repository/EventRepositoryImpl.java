@@ -45,7 +45,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public Optional<Event> findById(Long id) {
+    public Optional<Event> findById(long id) {
         Session session = sessionFactory.getCurrentSession();
         Event desiredEvent = session.get(Event.class, id);
         return Optional.ofNullable(desiredEvent);
@@ -53,19 +53,22 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public List<Event> findAll() {
+    public List<Event> findAll(int size, int page) {
         Session session = sessionFactory.getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
         Root<Event> root = criteriaQuery.from(Event.class);
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("id")));
         criteriaQuery.select(root);
         Query query = session.createQuery(criteriaQuery);
-        return query.getResultList();
+        return query.setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .getResultList();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void deleteById(Long id) throws EventNotFoundException {
+    public void deleteById(long id) throws EventNotFoundException {
         Session session = sessionFactory.getCurrentSession();
         Optional<Event> markedToDeletionEvent = findById(id);
         if (markedToDeletionEvent.isEmpty()) {
