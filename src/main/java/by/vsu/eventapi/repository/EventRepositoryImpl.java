@@ -33,12 +33,13 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public Event update(Event event) throws EventNotFoundException {
+    public Event update(Event event, long id) throws EventNotFoundException {
         Session session = sessionFactory.getCurrentSession();
-        Optional<Event> id = findById(event.getId());
-        if (id.isEmpty()) {
+        Optional<Event> expectedEvent = findById(id);
+        if (expectedEvent.isEmpty()) {
             EventNotFoundException.call(event.getId());
         }
+        event.setId(id);
         session.merge(event);
         return event;
     }

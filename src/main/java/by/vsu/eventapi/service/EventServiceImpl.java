@@ -22,8 +22,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event update(Event event) {
-        eventRepository.update(event);
+    public Event update(Event event, long id) {
+        eventRepository.update(event, id);
         return event;
     }
 

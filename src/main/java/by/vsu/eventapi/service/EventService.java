@@ -8,7 +8,7 @@ public interface EventService {
 
     Event save(Event event);
 
-    Event update(Event event);
+    Event update(Event event, long id);
 
     Event findById(long id);
 

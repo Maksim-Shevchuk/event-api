@@ -59,7 +59,7 @@ public class EventController {
                     )
             }
     )
-    @GetMapping
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public List<Event> findAll(@RequestParam @Positive int size,
                                @RequestParam @Positive int page) {
@@ -72,7 +72,8 @@ public class EventController {
                     @ApiResponse(
                             responseCode = "201",
                             description = "Created new event",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json"
+                            )
                     )
             }
     )
@@ -119,10 +120,10 @@ public class EventController {
                     )
             }
     )
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Event updateEvent(@RequestBody @Valid Event event) {
-        eventService.update(event);
+    public Event updateEvent(@PathVariable @Valid long id, @RequestBody @Valid Event event) {
+        eventService.update(event, id);
         return event;
     }
 }

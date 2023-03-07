@@ -16,7 +16,7 @@ import java.sql.Date;
 @Table(name = "events")
 public class Event {
 
-    //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,8 +30,8 @@ public class Event {
     @NotBlank
     private String organizer;
 
-    @Column(name = "time_of_event", nullable = false)
-    private Date timeOfEvent;
+    @Column(name = "date_of_event", nullable = false)
+    private Date dateOfEvent;
 
     @Column(name = "place_of_event", nullable = false)
     @NotBlank

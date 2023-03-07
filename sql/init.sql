@@ -10,7 +10,7 @@ CREATE TABLE events(
 INSERT INTO events(
   	description, 
 	organizer, 
-	time_of_event, 
+	date_of_event,
   	place_of_event
 ) 
 VALUES 

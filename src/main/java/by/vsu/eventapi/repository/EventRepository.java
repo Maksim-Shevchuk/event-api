@@ -9,7 +9,7 @@ public interface EventRepository {
 
     Event save(Event event);
 
-    Event update(Event event);
+    Event update(Event event, long id);
 
     Optional<Event> findById(long id);
 
